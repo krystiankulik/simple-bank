@@ -1,17 +1,9 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
+import { Titillium_Web } from "next/font/google";
+import { Landmark } from "lucide-react";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+const font = Titillium_Web({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,10 +17,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${font.className}`}>
+        <header className="bg-primary text-primary-content p-4">
+          <div className="flex justify-center items-center gap-2">
+            <Landmark />
+            <h1 className="text-2xl font-bold text-primary-content">Simple Bank</h1>
+          </div>
+        </header>
         {children}
+        <footer className="bg-neutral text-neutral-content py-8">
+          <div className="container mx-auto px-4 text-center">
+            <p>&copy; 2024 Simple Bank. All rights reserved.</p>
+          </div>
+        </footer>
       </body>
     </html>
   );
