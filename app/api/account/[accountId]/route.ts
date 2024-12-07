@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/utils/db";
 
-export async function GET(_: Request, { params }: { params: { accountId: string } }) {
-  const { accountId } = params;
+export async function GET(_: Request, { params }: { params: Promise<{ accountId: string }> }) {
+  const accountId = (await params).accountId;
 
   if (!accountId) {
     return NextResponse.json({ message: "Account ID is required" }, { status: 400 });

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Titillium_Web } from "next/font/google";
 import { Landmark } from "lucide-react";
+import { Toaster } from "react-hot-toast";
+import Link from "next/link";
 
 const font = Titillium_Web({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -19,11 +21,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${font.className}`}>
         <header className="bg-primary text-primary-content p-4">
-          <div className="flex justify-center items-center gap-2">
+          <Link className="flex justify-center items-center gap-2" href={"/"}>
             <Landmark />
             <h1 className="text-2xl font-bold text-primary-content">Simple Bank</h1>
-          </div>
+          </Link>
         </header>
+        <Toaster position={"bottom-center"} />
         {children}
         <footer className="bg-neutral text-neutral-content py-8">
           <div className="container mx-auto px-4 text-center">

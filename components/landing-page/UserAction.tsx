@@ -3,20 +3,18 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
-import useUser from "@/utils/useUser";
 
 export const UserAction = () => {
   const [inputValue, setInputValue] = useState<string>("");
-  const [, setUser] = useUser();
   const router = useRouter();
 
   const isInputValid = inputValue.trim().length > 0;
 
-  const handleSubmit = () => {
-    if (isInputValid) {
-      setUser(inputValue);
-      router.push("/dashboard");
+  const handleSubmit = async () => {
+    if (!isInputValid) {
+      return;
     }
+    router.push(`/dashboard?username=${inputValue}`);
   };
 
   return (
@@ -26,10 +24,10 @@ export const UserAction = () => {
         placeholder="Enter username"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        className={"input input-bordered w-full max-w-xs text-white"}
+        className={"input input-bordered w-44 max-w-xs text-white"}
       />
       <button
-        className="btn btn-primary disabled:bg-gray-500 disabled:text-gray-800"
+        className="btn w-44 btn-primary disabled:bg-gray-500 disabled:text-gray-800"
         onClick={handleSubmit}
         disabled={!isInputValid}
       >
