@@ -2,8 +2,12 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axiosInstance from "@/utils/axiosInstance";
+import UserInfo from "@/components/dashboard/UserInfo";
+import FinancialActionButtons from "@/components/dashboard/FinancialActionButtons";
+import TransactionsList from "@/components/dashboard/TransactionList";
 
 interface Account {
+  id: string;
   balance: number;
   IBAN: string;
 }
@@ -19,6 +23,7 @@ const Dashboard: React.FC = () => {
 
   const [balance, setBalance] = useState<number | null>(null);
   const [iban, setIban] = useState<string | null>(null);
+  const [accountId, setAccountId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
@@ -34,9 +39,9 @@ const Dashboard: React.FC = () => {
         const data = response.data;
         setBalance(data?.account?.balance);
         setIban(data?.account?.IBAN);
+        setAccountId(data?.account?.id);
         setError(false);
       } catch (err) {
-        console.error("Error fetching user data:", err);
         setError(true);
       } finally {
         setLoading(false);
@@ -52,7 +57,9 @@ const Dashboard: React.FC = () => {
 
   return (
     <div>
-      Siema {username} {balance}
+      <UserInfo balance={balance} iban={iban} username={username} />
+      <FinancialActionButtons />
+      {accountId && <TransactionsList accountId={accountId} />}
     </div>
   );
 };

@@ -15,7 +15,7 @@ const getUserDetailsResponse = (user: User, account: Account | null, status: num
       account: {
         id: account?.id,
         balance: account?.balance.toNumber().toFixed(2) || 0.0,
-        IBAN: account?.IBAN,
+        IBAN: IBAN.printFormat(account?.IBAN ?? "", " "),
       },
     },
     { status: status },
@@ -56,7 +56,12 @@ export async function POST(req: Request) {
       return getUserDetailsResponse(newAccount.user, newAccount, 201);
     }
   } catch (error) {
-    console.error(error);
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        console.log(error.message);
+        return NextResponse.json({ message: "Username already exists" }, { status: 409 });
+      }
+    }
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
