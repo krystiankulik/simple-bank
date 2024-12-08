@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axiosInstance from "@/utils/axiosInstance";
 import { useUserData } from "@/utils/useUser";
+import { isValidAmount } from "@/utils/isValidAmount";
 
 export default function WithdrawPage() {
-  const [amount, setAmount] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [amount, setAmount] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const { getAccountId } = useUserData();
   const accountId = getAccountId();
@@ -20,8 +21,8 @@ export default function WithdrawPage() {
       return;
     }
 
-    const isValidAmount = /^\d+(\.\d{2})?$/.test(amount);
-    if (!isValidAmount) {
+    const isValid = isValidAmount(amount);
+    if (!isValid) {
       toast.error("Amount must be a positive number with two decimal places (e.g., 123.45)");
       return;
     }
@@ -42,7 +43,7 @@ export default function WithdrawPage() {
     <div className="flex justify-center h-full items-center bg-base-100">
       <div className="bg-neutral p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold text-center mb-6">Withdraw Funds</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit}>
           <div className="relative">
             <input
               type="number"

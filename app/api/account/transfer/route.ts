@@ -51,7 +51,7 @@ export async function POST(req: Request) {
       });
 
       if (recipientAccount) {
-        await prisma.account.update({
+        const updatedRecipientAccount = await prisma.account.update({
           where: { id: recipientAccount.id },
           data: {
             balance: {
@@ -63,9 +63,9 @@ export async function POST(req: Request) {
         await prisma.transaction.create({
           data: {
             type: "TRANSFER_IN",
-            accountId: recipientAccount.id,
+            accountId: updatedRecipientAccount.id,
             relatedIBAN: senderAccount.IBAN,
-            balance: recipientAccount.balance,
+            balance: updatedRecipientAccount.balance,
             amount: amount,
           },
         });
@@ -74,9 +74,9 @@ export async function POST(req: Request) {
       await prisma.transaction.create({
         data: {
           type: "TRANSFER_OUT",
-          accountId: senderAccount.id,
+          accountId: updatedSenderAccount.id,
           relatedIBAN: parsedIBAN,
-          balance: senderAccount.balance,
+          balance: updatedSenderAccount.balance,
           amount: amount,
         },
       });

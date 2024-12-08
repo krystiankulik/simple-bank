@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axiosInstance from "@/utils/axiosInstance";
 import { useUserData } from "@/utils/useUser";
+import { isValidAmount } from "@/utils/isValidAmount";
 
 export default function DepositPage() {
-  const [amount, setAmount] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [amount, setAmount] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const { getAccountId } = useUserData();
   const accountId = getAccountId();
@@ -20,8 +21,7 @@ export default function DepositPage() {
       return;
     }
 
-    const isValidAmount = /^\d+(\.\d{2})?$/.test(amount);
-    if (!isValidAmount) {
+    if (!isValidAmount(amount)) {
       toast.error("Amount must be a positive number with two decimal places (e.g., 123.45)");
       return;
     }

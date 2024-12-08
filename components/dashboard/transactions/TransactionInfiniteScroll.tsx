@@ -73,7 +73,7 @@ export const TransactionInfiniteScroll = ({ accountId }: TransactionListProps) =
   };
 
   return (
-    <div className="w-full p-8 bg-gray-600">
+    <div className="w-full h-full p-8 bg-gray-600">
       <h2 className="text-2xl font-bold mb-4 text-center">Transactions</h2>
       <InfiniteScroll
         dataLength={transactions.length}

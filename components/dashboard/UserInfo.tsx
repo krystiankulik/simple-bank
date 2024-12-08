@@ -11,16 +11,16 @@ export default function UserInfo({ username, iban, balance }: UserFinancialInfoP
 
   return (
     <div className="w-full bg-base-100 text-white p-6">
-      <div className="max-w-md bg-neutral mx-auto p-6 rounded-xl">
-        <div className="flex flex-col items-start md:items-end">
-          <span className="text-4xl font-bold">€{formattedBalance}</span>
+      <div className="max-w-md w-80 h-48 bg-neutral mx-auto p-6 rounded-xl md:w-96 md:h-56">
+        <div className="flex flex-col items-end">
+          <span className="text-xl font-bold md:text-3xl">€{formattedBalance}</span>
         </div>
         <CardChip />
-        <h2 className="text-2xl font-bold my-4">{username}</h2>
+        <h2 className="text-xl font-bold my-4 md:text-2xl">{username}</h2>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
           <div className="flex flex-col">
-            <span className="text-sm uppercase opacity-75">IBAN</span>
-            <span className="text-lg font-medium">{iban}</span>
+            <span className="text-xs uppercase opacity-75 md:text-sm">IBAN</span>
+            <span className="text-sm font-medium md:text-lg">{iban}</span>
           </div>
         </div>
       </div>

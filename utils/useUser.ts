@@ -3,21 +3,39 @@
 import { useCallback } from "react";
 
 export const useUserData = () => {
-  const saveUsername = useCallback((username: string) => {
-    localStorage.setItem("username", username);
-  }, []);
+  const isBrowser = typeof window !== "undefined";
 
-  const saveAccountId = useCallback((accountId: string) => {
-    localStorage.setItem("accountId", accountId);
-  }, []);
+  const saveUsername = useCallback(
+    (username: string) => {
+      if (isBrowser) {
+        localStorage.setItem("username", username);
+      }
+    },
+    [isBrowser],
+  );
+
+  const saveAccountId = useCallback(
+    (accountId: string) => {
+      if (isBrowser) {
+        localStorage.setItem("accountId", accountId);
+      }
+    },
+    [isBrowser],
+  );
 
   const getUsername: () => string | null = useCallback(() => {
-    return localStorage.getItem("username");
-  }, []);
+    if (isBrowser) {
+      return localStorage.getItem("username");
+    }
+    return null;
+  }, [isBrowser]);
 
   const getAccountId: () => string | null = useCallback(() => {
-    return localStorage.getItem("accountId");
-  }, []);
+    if (isBrowser) {
+      return localStorage.getItem("accountId");
+    }
+    return null;
+  }, [isBrowser]);
 
   return { getUsername, getAccountId, saveUsername, saveAccountId };
 };

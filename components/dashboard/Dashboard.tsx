@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className={"h-full overflow-hidden"}>
       {iban && balance && <UserInfo balance={balance} iban={iban} username={username || ""} />}
       {accountId && <FinancialActionButtons />}
       {accountId && <TransactionInfiniteScroll accountId={accountId} />}
