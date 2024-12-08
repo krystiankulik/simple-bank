@@ -28,7 +28,7 @@ export default function DepositPage() {
 
     setIsLoading(true);
     try {
-      await axiosInstance.post<unknown>(`/account/deposit`, { accountId: accountId, amount: amount });
+      await axiosInstance.post<unknown>(`/deposit`, { accountId: accountId, amount: amount });
       toast.success("Deposit successful");
     } finally {
       setAmount("");

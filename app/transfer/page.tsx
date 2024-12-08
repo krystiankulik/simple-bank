@@ -35,7 +35,7 @@ export default function TransferPage() {
 
     setIsLoading(true);
     try {
-      await axiosInstance.post<unknown>(`/account/transfer`, {
+      await axiosInstance.post<unknown>(`/transfer`, {
         accountId: accountId,
         amount: amount,
         transferRecipientIBAN: recipientIBAN,

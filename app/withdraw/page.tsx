@@ -29,7 +29,7 @@ export default function WithdrawPage() {
 
     setIsLoading(true);
     try {
-      await axiosInstance.post<unknown>(`/account/withdraw`, { accountId: accountId, amount: amount });
+      await axiosInstance.post<unknown>(`/withdraw`, { accountId: accountId, amount: amount });
       toast.success("Withdrawal successful");
     } catch (error) {
       console.error("Withdrawal failed");

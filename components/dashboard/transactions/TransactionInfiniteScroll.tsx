@@ -40,7 +40,7 @@ export const TransactionInfiniteScroll = ({ accountId }: TransactionListProps) =
     try {
       // adding small delay for better UX - avoiding loading state glitches.
       const response = await Promise.all([
-        axios.get<TransactionsResponse>(`/api/account/${accountId}?page=${page}`),
+        axios.get<TransactionsResponse>(`/api/transactions/${accountId}?page=${page}`),
         new Promise((resolve) => setTimeout(resolve, 300)),
       ]);
 
