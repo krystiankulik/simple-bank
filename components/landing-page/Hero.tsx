@@ -1,4 +1,4 @@
-import { UserAction } from "@/components/landing-page/UserAction";
+import { UserInput } from "@/components/landing-page/user-input/UserInput";
 import Image from "next/image";
 
 export const Hero = () => {
@@ -8,7 +8,7 @@ export const Hero = () => {
         <div className="flex flex-col items-center justify-center text-center md:text-left md:items-start md:justify-start md:w-1/2 mb-8 md:mb-0">
           <h1 className="text-4xl font-bold mb-4">Banking Made Simple</h1>
           <p className="mb-6">Experience hassle-free banking with Simple Bank. Manage your finances with ease.</p>
-          <UserAction />
+          <UserInput />
         </div>
         <div className="md:w-1/2">
           <Image src="/hero.svg" alt="Banking Hero" width={600} height={600} className="mx-auto" />

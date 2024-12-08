@@ -1,7 +1,12 @@
 import { Dashboard } from "@/components/dashboard/Dashboard";
+import { UserProvider } from "@/app/context/UserContext";
 
 const DashboardPage = () => {
-  return <Dashboard />;
+  return (
+    <UserProvider>
+      <Dashboard />
+    </UserProvider>
+  );
 };
 
 export default DashboardPage;

@@ -1,4 +1,4 @@
-import { UserAction } from "@/components/landing-page/UserAction";
+import { UserInput } from "@/components/landing-page/user-input/UserInput";
 
 export const CallToAction = () => {
   return (
@@ -6,7 +6,7 @@ export const CallToAction = () => {
       <div className="flex flex-col items-center text-center md:text-left">
         <h2 className="text-3xl font-bold mb-4">Ready to simplify your banking?</h2>
         <p className="mb-6">Join Simple Bank today and take control of your financial future.</p>
-        <UserAction />
+        <UserInput />
       </div>
     </section>
   );

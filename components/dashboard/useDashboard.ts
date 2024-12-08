@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/utils/axiosInstance";
 import toast from "react-hot-toast";
-import { useUserData } from "@/utils/useUser";
-import axios from "axios";
+import { useUser } from "@/app/context/UserContext";
 
 interface Account {
   id: string;
@@ -18,9 +17,7 @@ interface ApiResponse {
 }
 
 export const useDashboard = () => {
-  const { getUsername, getAccountId, saveAccountId } = useUserData();
-  const username = getUsername();
-  const accountId = getAccountId();
+  const { username, accountId, setAccountId } = useUser();
 
   const router = useRouter();
 
@@ -30,7 +27,6 @@ export const useDashboard = () => {
 
   useEffect(() => {
     if (!username) {
-      router.push("/");
       return;
     }
 
@@ -46,7 +42,7 @@ export const useDashboard = () => {
         const data = response[0].data;
         setBalance(data?.account?.balance);
         setIban(data?.account?.IBAN);
-        saveAccountId(data?.account?.id);
+        setAccountId(data?.account?.id);
       } catch (err) {
         toast.error("Error fetching user details");
       } finally {
@@ -55,7 +51,7 @@ export const useDashboard = () => {
     };
 
     void fetchUserData();
-  }, [username, saveAccountId, router]);
+  }, [username, accountId, router, setAccountId]);
 
   return {
     balance,

@@ -4,15 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axiosInstance from "@/utils/axiosInstance";
-import { useUserData } from "@/utils/useUser";
 import { isValidAmount } from "@/utils/isValidAmount";
+import { useUser } from "@/app/context/UserContext";
 
 export const useDeposit = () => {
   const [amount, setAmount] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
-  const { getAccountId } = useUserData();
-  const accountId = getAccountId();
+  const { accountId } = useUser();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
