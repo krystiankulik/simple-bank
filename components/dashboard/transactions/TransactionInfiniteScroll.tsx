@@ -65,11 +65,7 @@ export const TransactionInfiniteScroll = ({ accountId }: TransactionListProps) =
         </p>
       );
     }
-    return (
-      <p className={"text-center py-4"}>
-        <b>All transactions loaded</b>
-      </p>
-    );
+    return null;
   };
 
   return (
