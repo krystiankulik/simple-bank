@@ -1,25 +1,23 @@
-import { useState, useEffect } from "react";
+"use client";
 
-type UseUserReturn = [string, (username: string) => void];
+import { useCallback } from "react";
 
-// Very simple mechanism to get keep the "logged in" user.
-const useUser = (): UseUserReturn => {
-  const [username, setUsername] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("username") || "";
-    }
-    return "";
-  });
+export const useUserData = () => {
+  const saveUsername = useCallback((username: string) => {
+    localStorage.setItem("username", username);
+  }, []);
 
-  useEffect(() => {
-    if (username) {
-      localStorage.setItem("username", username);
-    } else {
-      localStorage.removeItem("username");
-    }
-  }, [username]);
+  const saveAccountId = useCallback((accountId: string) => {
+    localStorage.setItem("accountId", accountId);
+  }, []);
 
-  return [username, setUsername];
+  const getUsername: () => string | null = useCallback(() => {
+    return localStorage.getItem("username");
+  }, []);
+
+  const getAccountId: () => string | null = useCallback(() => {
+    return localStorage.getItem("accountId");
+  }, []);
+
+  return { getUsername, getAccountId, saveUsername, saveAccountId };
 };
-
-export default useUser;

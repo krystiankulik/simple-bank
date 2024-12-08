@@ -1,21 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axiosInstance from "@/utils/axiosInstance";
+import { useUserData } from "@/utils/useUser";
 
 export default function DepositPage() {
   const [amount, setAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const accountId = searchParams.get("accountId");
+  const { getAccountId } = useUserData();
+  const accountId = getAccountId();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!accountId) {
       toast.error("Account ID is missing");
+      return;
+    }
+
+    const isValidAmount = /^\d+(\.\d{2})?$/.test(amount);
+    if (!isValidAmount) {
+      toast.error("Amount must be a positive number with two decimal places (e.g., 123.45)");
       return;
     }
 
@@ -30,35 +37,25 @@ export default function DepositPage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="flex justify-center h-full items-center bg-base-100">
+      <div className="bg-neutral p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold text-center mb-6">Deposit Funds</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit}>
           <div className="relative">
             <input
               type="number"
-              step="0.01"
-              min="0.01"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
               required
-              className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full input"
             />
-            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">€</span>
           </div>
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+          <button type="submit" disabled={isLoading} className="btn btn-primary w-full my-2">
             {isLoading ? "Processing..." : "Deposit"}
           </button>
         </form>
-        <button
-          onClick={() => router.push("/dashboard")}
-          className="w-full mt-4 bg-gray-200 text-gray-800 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-        >
+        <button onClick={() => router.push("/dashboard")} className="btn btn-primary btn-outline w-full my-2">
           Back to Dashboard
         </button>
       </div>

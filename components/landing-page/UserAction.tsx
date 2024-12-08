@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
+import { useUserData } from "@/utils/useUser";
 
 export const UserAction = () => {
   const [inputValue, setInputValue] = useState<string>("");
+  const { saveUsername } = useUserData();
   const router = useRouter();
 
   const isInputValid = inputValue.trim().length > 0;
@@ -14,7 +16,9 @@ export const UserAction = () => {
     if (!isInputValid) {
       return;
     }
-    router.push(`/dashboard?username=${inputValue}`);
+
+    saveUsername(inputValue);
+    router.push(`/dashboard`);
   };
 
   return (

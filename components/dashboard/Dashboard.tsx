@@ -1,12 +1,14 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import axiosInstance from "@/utils/axiosInstance";
 import UserInfo from "@/components/dashboard/UserInfo";
 import FinancialActionButtons from "@/components/dashboard/FinancialActionButtons";
 import { TransactionInfiniteScroll } from "@/components/dashboard/transactions/TransactionInfiniteScroll";
 import toast from "react-hot-toast";
 import { LoadingDots } from "@/components/dashboard/LoadingDots";
+import { useUserData } from "@/utils/useUser";
 
 interface Account {
   id: string;
@@ -19,18 +21,19 @@ interface ApiResponse {
 }
 
 const Dashboard: React.FC = () => {
-  const searchParams = useSearchParams();
-  const username = searchParams.get("username");
+  const { getUsername, getAccountId, saveAccountId } = useUserData();
+  const username = getUsername();
+  const accountId = getAccountId();
+
+  const router = useRouter();
 
   const [balance, setBalance] = useState<number | null>(null);
   const [iban, setIban] = useState<string | null>(null);
-  const [accountId, setAccountId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     if (!username) {
-      return;
+      router.push("/");
     }
 
     const fetchUserData = async () => {
@@ -40,8 +43,7 @@ const Dashboard: React.FC = () => {
         const data = response.data;
         setBalance(data?.account?.balance);
         setIban(data?.account?.IBAN);
-        setAccountId(data?.account?.id);
-        setError(false);
+        saveAccountId(data?.account?.id);
       } catch (err) {
         toast.error("Error fetching user details");
       } finally {
@@ -50,7 +52,7 @@ const Dashboard: React.FC = () => {
     };
 
     void fetchUserData();
-  }, [username]);
+  }, [username, saveAccountId, router]);
 
   if (loading) {
     return (
@@ -62,8 +64,8 @@ const Dashboard: React.FC = () => {
 
   return (
     <div>
-      {iban && balance && <UserInfo balance={balance} iban={iban} username={username} />}
-      {accountId && <FinancialActionButtons accountId={accountId} />}
+      {iban && balance && <UserInfo balance={balance} iban={iban} username={username || ""} />}
+      {accountId && <FinancialActionButtons />}
       {accountId && <TransactionInfiniteScroll accountId={accountId} />}
     </div>
   );
