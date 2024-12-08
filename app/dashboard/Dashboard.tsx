@@ -58,7 +58,7 @@ const Dashboard: React.FC = () => {
   return (
     <div>
       <UserInfo balance={balance} iban={iban} username={username} />
-      <FinancialActionButtons />
+      {accountId && <FinancialActionButtons accountId={accountId} />}
       {accountId && <TransactionsList accountId={accountId} />}
     </div>
   );
