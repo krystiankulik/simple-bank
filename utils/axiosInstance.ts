@@ -13,6 +13,8 @@ axiosInstance.interceptors.response.use(
   (error: AxiosError<{ message?: string }>) => {
     if (error.response) {
       toast.error(error.response.data?.message || "An error occurred.");
+    } else if (error.request) {
+      toast.error("Network error. Please check your internet connection.");
     } else {
       toast.error(error.message || "An unexpected error occurred.");
     }

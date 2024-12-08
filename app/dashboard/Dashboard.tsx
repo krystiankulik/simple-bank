@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import axiosInstance from "@/utils/axiosInstance";
 import UserInfo from "@/components/dashboard/UserInfo";
 import FinancialActionButtons from "@/components/dashboard/FinancialActionButtons";
-import TransactionsList from "@/components/dashboard/TransactionList";
+import { TransactionInfiniteScroll } from "@/components/dashboard/transactions/TransactionInfiniteScroll";
 
 interface Account {
   id: string;
@@ -59,7 +59,7 @@ const Dashboard: React.FC = () => {
     <div>
       <UserInfo balance={balance} iban={iban} username={username} />
       {accountId && <FinancialActionButtons accountId={accountId} />}
-      {accountId && <TransactionsList accountId={accountId} />}
+      {accountId && <TransactionInfiniteScroll accountId={accountId} />}
     </div>
   );
 };
