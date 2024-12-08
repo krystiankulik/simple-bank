@@ -1,6 +1,6 @@
 "use client";
 import { Suspense } from "react";
-import Dashboard from "@/app/dashboard/Dashboard";
+import Dashboard from "@/components/dashboard/Dashboard";
 
 const DashboardPage: React.FC = () => {
   return (

@@ -1,10 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import axiosInstance from "@/utils/axiosInstance";
 import UserInfo from "@/components/dashboard/UserInfo";
 import FinancialActionButtons from "@/components/dashboard/FinancialActionButtons";
 import { TransactionInfiniteScroll } from "@/components/dashboard/transactions/TransactionInfiniteScroll";
+import toast from "react-hot-toast";
+import { LoadingDots } from "@/components/dashboard/LoadingDots";
 
 interface Account {
   id: string;
@@ -19,7 +21,6 @@ interface ApiResponse {
 const Dashboard: React.FC = () => {
   const searchParams = useSearchParams();
   const username = searchParams.get("username");
-  const router = useRouter();
 
   const [balance, setBalance] = useState<number | null>(null);
   const [iban, setIban] = useState<string | null>(null);
@@ -42,7 +43,7 @@ const Dashboard: React.FC = () => {
         setAccountId(data?.account?.id);
         setError(false);
       } catch (err) {
-        setError(true);
+        toast.error("Error fetching user details");
       } finally {
         setLoading(false);
       }
@@ -52,12 +53,16 @@ const Dashboard: React.FC = () => {
   }, [username]);
 
   if (loading) {
-    return <span className="loading loading-spinner loading-xs"></span>;
+    return (
+      <div className={"h-full bg-base-100"}>
+        <LoadingDots />
+      </div>
+    );
   }
 
   return (
     <div>
-      <UserInfo balance={balance} iban={iban} username={username} />
+      {iban && balance && <UserInfo balance={balance} iban={iban} username={username} />}
       {accountId && <FinancialActionButtons accountId={accountId} />}
       {accountId && <TransactionInfiniteScroll accountId={accountId} />}
     </div>
