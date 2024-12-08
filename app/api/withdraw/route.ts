@@ -1,58 +1,33 @@
 import { NextResponse } from "next/server";
-import prisma from "@/utils/db";
-import { Prisma } from "@prisma/client";
+import { withdrawFromAccount } from "@/services/withdrawalService";
 
 export async function POST(req: Request) {
-  const { accountId, amount } = await req.json();
-
-  if (!accountId || !amount || amount <= 0) {
-    return NextResponse.json({ message: "Invalid account or withdrawal amount" }, { status: 400 });
-  }
-
   try {
-    const account = await prisma.account.findUnique({
-      where: { id: accountId },
-    });
+    const { accountId, amount } = await req.json();
 
-    if (!account) {
-      return NextResponse.json({ message: "Account not found" }, { status: 404 });
+    if (!accountId || !amount || amount <= 0) {
+      return NextResponse.json({ message: "Invalid account or withdraw amount" }, { status: 400 });
     }
 
-    if (account.balance.lessThan(amount)) {
-      return NextResponse.json({ message: "Insufficient funds" }, { status: 400 });
-    }
-
-    const updatedAccount = await prisma.$transaction(async (prisma) => {
-      const updatedAccount = await prisma.account.update({
-        where: { id: accountId },
-        data: {
-          balance: {
-            decrement: new Prisma.Decimal(amount),
-          },
-        },
-      });
-
-      await prisma.transaction.create({
-        data: {
-          type: "WITHDRAWAL",
-          accountId: accountId,
-          balance: updatedAccount.balance,
-          amount: amount,
-        },
-      });
-
-      return updatedAccount;
-    });
+    const result = await withdrawFromAccount(accountId, amount);
 
     return NextResponse.json(
       {
-        balance: updatedAccount.balance.toNumber().toFixed(2),
-        message: "Withdrawal successful",
+        balance: result.balance.toNumber().toFixed(2),
+        message: "Withdraw successful",
       },
       { status: 200 },
     );
-  } catch (error) {
-    console.error(error);
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message === "Account not found") {
+      return NextResponse.json({ message: error.message }, { status: 404 });
+    }
+
+    if (error instanceof Error && error.message === "Insufficient funds") {
+      return NextResponse.json({ message: error.message }, { status: 400 });
+    }
+
+    console.error("Internal Server Error:", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
-import prisma from "@/utils/db";
+import { getUserByUsername, createUserWithAccount } from "@/services/userService";
 import { Account, Prisma, User } from "@prisma/client";
-import { CountryCode, IBAN } from "ibankit";
-
-const generateRandomIBAN = (): string => {
-  return IBAN.random(CountryCode.ES).toString();
-};
+import { IBAN } from "ibankit";
 
 const getUserDetailsResponse = (user: User, account: Account | null, status: number) => {
   return NextResponse.json(
@@ -30,38 +26,22 @@ export async function POST(req: Request) {
   }
 
   try {
-    const user = await prisma.user.findUnique({
-      where: { username },
-      include: { account: true },
-    });
+    const user = await getUserByUsername(username);
 
     if (user) {
       return getUserDetailsResponse(user, user.account, 200);
-    } else {
-      const newAccount = await prisma.account.create({
-        data: {
-          balance: new Prisma.Decimal(0),
-          IBAN: generateRandomIBAN(),
-          user: {
-            create: {
-              username,
-            },
-          },
-        },
-        include: {
-          user: true,
-        },
-      });
-
-      return getUserDetailsResponse(newAccount.user, newAccount, 201);
     }
+
+    const newAccount = await createUserWithAccount(username);
+    return getUserDetailsResponse(newAccount.user, newAccount, 201);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
-        console.log(error.message);
         return NextResponse.json({ message: "Username already exists" }, { status: 409 });
       }
     }
+
+    console.error("Internal Server Error:", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

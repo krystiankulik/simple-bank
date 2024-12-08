@@ -1,54 +1,29 @@
 import { NextResponse } from "next/server";
-import prisma from "@/utils/db";
-import { Prisma } from "@prisma/client";
+import { depositToAccount } from "@/services/depositService";
 
 export async function POST(req: Request) {
-  const { accountId, amount } = await req.json();
-
-  if (!accountId || !amount || amount <= 0) {
-    return NextResponse.json({ message: "Invalid account or withdraw amount" }, { status: 400 });
-  }
-
   try {
-    const account = await prisma.account.findUnique({
-      where: { id: accountId },
-    });
+    const { accountId, amount } = await req.json();
 
-    if (!account) {
-      return NextResponse.json({ message: "Account not found" }, { status: 404 });
+    if (!accountId || !amount || amount <= 0) {
+      return NextResponse.json({ message: "Invalid account or withdraw amount" }, { status: 400 });
     }
 
-    const updatedAccount = await prisma.$transaction(async (prisma) => {
-      const updatedAccount = await prisma.account.update({
-        where: { id: accountId },
-        data: {
-          balance: {
-            increment: new Prisma.Decimal(amount),
-          },
-        },
-      });
-
-      await prisma.transaction.create({
-        data: {
-          type: "DEPOSIT",
-          accountId: accountId,
-          balance: updatedAccount.balance,
-          amount: amount,
-        },
-      });
-
-      return updatedAccount;
-    });
+    const result = await depositToAccount(accountId, amount);
 
     return NextResponse.json(
       {
-        balance: updatedAccount.balance.toNumber().toFixed(2),
+        balance: result.balance.toNumber().toFixed(2),
         message: "Deposit successful",
       },
       { status: 200 },
     );
-  } catch (error) {
-    console.error(error);
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message === "Account not found") {
+      return NextResponse.json({ message: error.message }, { status: 404 });
+    }
+
+    console.error("Internal Server Error:", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
