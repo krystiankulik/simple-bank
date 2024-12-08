@@ -29,18 +29,19 @@ model Account {
 }
 
 model Transaction {
-  id                    String          @id @default(uuid())
-  type                  TransactionType
-  transferRecipientIBAN String?
-  creationDate          DateTime        @default(now())
-  accountId             String
-  account               Account         @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  balance               Decimal         @db.Decimal(18, 2)
-  amount                Decimal         @db.Decimal(18, 2)
+  id           String          @id @default(uuid())
+  type         TransactionType
+  relatedIBAN  String?
+  creationDate DateTime        @default(now())
+  accountId    String
+  account      Account         @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  balance      Decimal         @db.Decimal(18, 2)
+  amount       Decimal         @db.Decimal(18, 2)
 }
 
 enum TransactionType {
   WITHDRAWAL
   DEPOSIT
-  TRANSFER
+  TRANSFER_IN
+  TRANSFER_OUT
 }

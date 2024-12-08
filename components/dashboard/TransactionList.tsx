@@ -3,11 +3,12 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { TransactionTable } from "@/components/dashboard/TransactionDetails";
 
-interface Transaction {
+export interface Transaction {
   id: string;
   type: string;
-  transferRecipientIBAN: string | null;
+  relatedIBAN: string | null;
   creationDate: string;
   balance: string;
   amount: string;
@@ -55,8 +56,9 @@ export default function TransactionsList({ accountId }: TransactionListProps) {
   }, []);
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Transactions</h2>
+    <div className="w-full max-w-7xl mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4 text-center">Transactions</h2>
+      {isLoading && <div>Loading...</div>}
       <InfiniteScroll
         dataLength={transactions.length}
         next={fetchTransactions}
@@ -64,13 +66,11 @@ export default function TransactionsList({ accountId }: TransactionListProps) {
         loader={<h4>Loading...</h4>}
         endMessage={
           <p style={{ textAlign: "center" }}>
-            <b>You have seen all transactions</b>
+            <b>All transactions loaded</b>
           </p>
         }
       >
-        {transactions.map((transaction) => (
-          <div key={transaction.id}>{JSON.stringify(transaction)}</div>
-        ))}
+        <TransactionTable transactions={transactions} />
       </InfiniteScroll>
       {error && <div>{error}</div>}
     </div>

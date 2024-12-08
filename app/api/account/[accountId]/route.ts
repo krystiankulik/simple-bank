@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/db";
+import { IBAN } from "ibankit";
 
-export async function GET(request: NextRequest, { params }: { params: { accountId: string } }) {
-  const accountId = params.accountId;
+export async function GET(request: NextRequest, { params }: { params: Promise<{ accountId: string }> }) {
+  const accountId = (await params).accountId;
   const { searchParams } = new URL(request.url);
   const page = parseInt(searchParams.get("page") || "1");
   const limit = parseInt(searchParams.get("limit") || "10");
@@ -41,7 +42,7 @@ export async function GET(request: NextRequest, { params }: { params: { accountI
         transactions: transactions.map((txn) => ({
           id: txn.id,
           type: txn.type,
-          transferRecipientIBAN: txn.transferRecipientIBAN,
+          relatedIBAN: IBAN.printFormat(txn.relatedIBAN ?? "", " "),
           creationDate: txn.creationDate,
           balance: txn.balance.toNumber().toFixed(2),
           amount: txn.amount.toNumber().toFixed(2),

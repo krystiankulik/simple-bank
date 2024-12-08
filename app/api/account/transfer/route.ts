@@ -17,6 +17,7 @@ export async function POST(req: Request) {
   if (!(await validateIBAN(transferRecipientIBAN))) {
     return NextResponse.json({ message: "Invalid IBAN" }, { status: 400 });
   }
+  const parsedIBAN = new IBAN(transferRecipientIBAN).toString();
 
   try {
     const senderAccount = await prisma.account.findUnique({
@@ -32,7 +33,7 @@ export async function POST(req: Request) {
     }
 
     const recipientAccount = await prisma.account.findUnique({
-      where: { IBAN: transferRecipientIBAN },
+      where: { IBAN: parsedIBAN },
     });
 
     const transactionMessage = recipientAccount
@@ -58,13 +59,23 @@ export async function POST(req: Request) {
             },
           },
         });
+
+        await prisma.transaction.create({
+          data: {
+            type: "TRANSFER_IN",
+            accountId: recipientAccount.id,
+            relatedIBAN: senderAccount.IBAN,
+            balance: recipientAccount.balance,
+            amount: amount,
+          },
+        });
       }
 
       await prisma.transaction.create({
         data: {
-          type: "TRANSFER",
+          type: "TRANSFER_OUT",
           accountId: senderAccount.id,
-          transferRecipientIBAN,
+          relatedIBAN: parsedIBAN,
           balance: senderAccount.balance,
           amount: amount,
         },
