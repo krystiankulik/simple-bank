@@ -1,5 +1,10 @@
 import { Transfer } from "@/components/transfer/Transfer";
+import { FormLayout } from "@/components/common/FormLayout";
 
 export default function TransferPage() {
-  return <Transfer />;
+  return (
+    <FormLayout>
+      <Transfer />
+    </FormLayout>
+  );
 }
