@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
-import { UserProvider, useUser } from "@/app/context/UserContext";
+import { UserProvider, useUser } from "@/context/UserContext";
 
 export const UserInputForm = () => {
   const [inputValue, setInputValue] = useState<string>("");

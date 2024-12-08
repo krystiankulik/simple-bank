@@ -15,7 +15,7 @@ const TableCell: React.FC<React.PropsWithChildren> = ({ children }) => (
   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{children}</td>
 );
 
-export const TransactionListDesktop = ({ transactions }: TransactionListDesktopProps) => {
+export const TransactionListDesktop: React.FC<TransactionListDesktopProps> = ({ transactions }) => {
   return (
     <table className="w-full border-collapse bg-base-100 shadow-sm rounded-lg">
       <thead className="bg-neutral">

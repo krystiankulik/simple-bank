@@ -5,7 +5,7 @@ interface TransactionAmountProps {
   amount: string;
 }
 
-export const TransactionAmount = ({ type, amount }: TransactionAmountProps) => {
+export const TransactionAmount: React.FC<TransactionAmountProps> = ({ type, amount }) => {
   const isPositive = (type: string) => {
     return type === "TRANSFER_IN" || type === "DEPOSIT";
   };

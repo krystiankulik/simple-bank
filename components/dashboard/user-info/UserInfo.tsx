@@ -1,4 +1,5 @@
 import { CardChip } from "@/components/dashboard/user-info/CardChip";
+import React from "react";
 
 interface UserFinancialInfoProps {
   username: string | null;
@@ -6,7 +7,7 @@ interface UserFinancialInfoProps {
   balance: number | null;
 }
 
-export default function UserInfo({ username, iban, balance }: UserFinancialInfoProps) {
+export const UserInfo: React.FC<UserFinancialInfoProps> = ({ username, iban, balance }) => {
   const formattedBalance = balance ? Number(balance).toFixed(2) : "N/A";
 
   const renderContent = () => {
@@ -35,4 +36,4 @@ export default function UserInfo({ username, iban, balance }: UserFinancialInfoP
       <div className="max-w-md w-80 h-48 bg-neutral mx-auto p-6 rounded-xl md:w-96 md:h-56">{renderContent()}</div>
     </div>
   );
-}
+};

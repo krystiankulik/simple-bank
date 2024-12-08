@@ -1,5 +1,5 @@
 import React from "react";
-import { UserProvider } from "@/app/context/UserContext";
+import { UserProvider } from "@/context/UserContext";
 
 export const FormLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (

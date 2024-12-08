@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-export default function OperationButtons() {
+export const OperationButtons = () => {
   const router = useRouter();
 
   return (
@@ -20,4 +20,4 @@ export default function OperationButtons() {
       </div>
     </div>
   );
-}
+};

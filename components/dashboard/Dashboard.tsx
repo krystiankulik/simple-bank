@@ -1,10 +1,10 @@
 "use client";
 
-import UserInfo from "@/components/dashboard/user-info/UserInfo";
-import OperationButtons from "@/components/dashboard/operation-buttons/OperationButtons";
 import { TransactionInfiniteScroll } from "@/components/dashboard/transactions/TransactionInfiniteScroll";
 import { LoadingDots } from "@/components/common/LoadingDots";
 import { useDashboard } from "@/components/dashboard/useDashboard";
+import { OperationButtons } from "@/components/dashboard/operation-buttons/OperationButtons";
+import { UserInfo } from "@/components/dashboard/user-info/UserInfo";
 
 export const Dashboard = () => {
   const { balance, iban, accountId, username, loading } = useDashboard();

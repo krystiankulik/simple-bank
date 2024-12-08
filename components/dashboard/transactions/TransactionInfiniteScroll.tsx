@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { TransactionTable } from "@/components/dashboard/transactions/TransactionListContainer";
@@ -31,7 +31,7 @@ interface TransactionListProps {
   accountId: string;
 }
 
-export const TransactionInfiniteScroll = ({ accountId }: TransactionListProps) => {
+export const TransactionInfiniteScroll: React.FC<TransactionListProps> = ({ accountId }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);

@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import axiosInstance from "@/utils/axiosInstance";
 import { isValidAmount } from "@/utils/isValidAmount";
 import { IBAN } from "ibankit";
-import { useUser } from "@/app/context/UserContext";
+import { useUser } from "@/context/UserContext";
 
 export const useTransfer = () => {
   const [amount, setAmount] = useState<string>("");

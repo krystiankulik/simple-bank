@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axiosInstance from "@/utils/axiosInstance";
 import { isValidAmount } from "@/utils/isValidAmount";
-import { useUser } from "@/app/context/UserContext";
+import { useUser } from "@/context/UserContext";
 
 export const useWithdraw = () => {
   const [amount, setAmount] = useState<string>("");

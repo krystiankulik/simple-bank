@@ -1,5 +1,5 @@
 import { Dashboard } from "@/components/dashboard/Dashboard";
-import { UserProvider } from "@/app/context/UserContext";
+import { UserProvider } from "@/context/UserContext";
 
 const DashboardPage = () => {
   return (

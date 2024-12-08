@@ -1,3 +1,5 @@
+import React from "react";
+
 interface TransactionDateProps {
   date: string;
 }
@@ -11,6 +13,6 @@ const formatDate = (dateString: string): string => {
   }).format(date);
 };
 
-export const TransactionDate = ({ date }: TransactionDateProps) => {
+export const TransactionDate: React.FC<TransactionDateProps> = ({ date }) => {
   return <span>{formatDate(date)}</span>;
 };
