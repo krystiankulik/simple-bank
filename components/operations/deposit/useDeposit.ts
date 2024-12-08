@@ -7,7 +7,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { useUserData } from "@/utils/useUser";
 import { isValidAmount } from "@/utils/isValidAmount";
 
-export const Deposit = () => {
+export const useDeposit = () => {
   const [amount, setAmount] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -16,6 +16,7 @@ export const Deposit = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!accountId) {
       toast.error("Account ID is missing");
       return;
@@ -28,35 +29,19 @@ export const Deposit = () => {
 
     setIsLoading(true);
     try {
-      await axiosInstance.post<unknown>(`/deposit`, { accountId: accountId, amount: amount });
+      await axiosInstance.post<unknown>(`/deposit`, { accountId, amount });
       toast.success("Deposit successful");
-    } finally {
       setAmount("");
+    } finally {
       setIsLoading(false);
     }
   };
 
-  return (
-    <>
-      <h1 className="text-2xl font-bold text-center mb-6">Deposit Funds</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="relative">
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="0.00"
-            required
-            className="w-full input"
-          />
-        </div>
-        <button type="submit" disabled={isLoading} className="btn btn-primary w-full my-2">
-          {isLoading ? "Processing..." : "Deposit"}
-        </button>
-      </form>
-      <button onClick={() => router.push("/dashboard")} className="btn btn-primary btn-outline w-full my-2">
-        Back to Dashboard
-      </button>
-    </>
-  );
+  return {
+    amount,
+    isLoading,
+    setAmount,
+    handleSubmit,
+    goToDashboard: () => router.push("/dashboard"),
+  };
 };

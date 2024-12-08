@@ -8,7 +8,7 @@ import { useUserData } from "@/utils/useUser";
 import { isValidAmount } from "@/utils/isValidAmount";
 import { IBAN } from "ibankit";
 
-export const Transfer = () => {
+export const useTransfer = () => {
   const [amount, setAmount] = useState<string>("");
   const [recipientIBAN, setRecipientIBAN] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -18,6 +18,7 @@ export const Transfer = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!accountId) {
       toast.error("Account ID is missing");
       return;
@@ -50,39 +51,13 @@ export const Transfer = () => {
     }
   };
 
-  return (
-    <>
-      <h1 className="text-2xl font-bold text-center mb-6">Transfer Funds</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="relative">
-          <input
-            type="number"
-            step="0.01"
-            min="0.01"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="0.00"
-            required
-            className="w-full input mb-4"
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            value={recipientIBAN}
-            onChange={(e) => setRecipientIBAN(e.target.value)}
-            placeholder="Recipient's IBAN"
-            required
-            className="w-full input mb-6"
-          />
-        </div>
-        <button type="submit" disabled={isLoading} className="btn btn-primary w-full my-2">
-          {isLoading ? "Processing..." : "Transfer"}
-        </button>
-      </form>
-      <button onClick={() => router.push("/dashboard")} className="btn btn-primary btn-outline w-full my-2">
-        Back to Dashboard
-      </button>
-    </>
-  );
+  return {
+    amount,
+    recipientIBAN,
+    isLoading,
+    setAmount,
+    setRecipientIBAN,
+    handleSubmit,
+    goToDashboard: () => router.push("/dashboard"),
+  };
 };

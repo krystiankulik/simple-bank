@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { TransactionTable } from "@/components/dashboard/transactions/TransactionListContainer";
-import { LoadingDots } from "@/components/dashboard/LoadingDots";
+import { LoadingDots } from "@/components/common/LoadingDots";
 import toast from "react-hot-toast";
 
 export interface Transaction {

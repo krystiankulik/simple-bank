@@ -1,4 +1,4 @@
-import { Transfer } from "@/components/transfer/Transfer";
+import { Transfer } from "@/components/operations/transfer/Transfer";
 import { FormLayout } from "@/components/common/FormLayout";
 
 export default function TransferPage() {

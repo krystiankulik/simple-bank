@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-export default function FinancialActionButtons() {
+export default function OperationButtons() {
   const router = useRouter();
 
   return (
