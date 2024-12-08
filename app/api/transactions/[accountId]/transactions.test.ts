@@ -23,7 +23,7 @@ describe("GET /api/transactions", () => {
     });
 
     const request = new Request("https://placeholder.simple-bank.com/api/transactions?page=1&limit=10");
-    const response = await GET(request, { params: { accountId: "1" } });
+    const response = await GET(request, { params: Promise.resolve({ accountId: "1" }) });
     const body = await response.json();
 
     expect(response.status).toBe(200);

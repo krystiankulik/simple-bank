@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { getTransactions } from "@/services/transactionService";
 
-export async function GET(request: Request, { params }: { params: { accountId: string } }) {
-  const accountId = params.accountId;
+export async function GET(request: Request, { params }: { params: Promise<{ accountId: string }> }) {
+  const accountId = (await params).accountId;
   const { searchParams } = new URL(request.url);
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = parseInt(searchParams.get("limit") || "10", 10);
