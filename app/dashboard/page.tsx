@@ -1,7 +1,6 @@
-"use client";
 import Dashboard from "@/components/dashboard/Dashboard";
 
-const DashboardPage: React.FC = () => {
+const DashboardPage = () => {
   return <Dashboard />;
 };
 

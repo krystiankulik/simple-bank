@@ -44,6 +44,7 @@ const Dashboard: React.FC = () => {
         setBalance(data?.account?.balance);
         setIban(data?.account?.IBAN);
         saveAccountId(data?.account?.id);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         toast.error("Error fetching user details");
       } finally {
