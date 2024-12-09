@@ -18,7 +18,7 @@ export const UserInfo: React.FC<UserFinancialInfoProps> = ({ username, iban, bal
             <span className="text-xl font-bold md:text-3xl">€{formattedBalance}</span>
           </div>
           <CardChip />
-          <h2 className="text-xl font-bold my-4 md:text-2xl">{username}</h2>
+          <h2 className="text-xl font-bold my-4 md:text-2xl capitalize">{username}</h2>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
             <div className="flex flex-col">
               <span className="text-xs uppercase opacity-75 md:text-sm">IBAN</span>

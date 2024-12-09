@@ -7,7 +7,7 @@ jest.mock("@/services/withdrawalService", () => ({
 
 describe("POST /api/withdraw", () => {
   it("should return 404 if account is not found", async () => {
-    (withdrawFromAccount as jest.Mock).mockRejectedValue(new Error("Account not found")); // Cast to Jest.Mock
+    (withdrawFromAccount as jest.Mock).mockRejectedValue(new Error("Account not found"));
 
     const request = new Request("https://placeholder.simple-bank.com/api/withdraw", {
       method: "POST",
