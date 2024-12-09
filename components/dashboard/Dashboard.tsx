@@ -9,7 +9,7 @@ import { UserInfo } from "@/components/dashboard/user-info/UserInfo";
 export const Dashboard = () => {
   const { balance, iban, accountId, username, loading } = useDashboard();
 
-  if (loading) {
+  if (loading || !iban || !username) {
     return (
       <div className={"h-full bg-base-100"}>
         <LoadingDots />
