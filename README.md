@@ -1,35 +1,43 @@
 ## Simple Bank
 
-Demo: https://simple-bank-xi.vercel.app/
+Remote URL: https://simple-bank-xi.vercel.app
 
+There are already some transactions set up for the username **Tester**. However, use any username you wish - a new account will be created.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### How to run it locally?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+with Docker: *docker-compose up --build*
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Remote deployment and pipeline
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The app is running on Vercel.
 
-## Learn More
+The CI/CD pipeline automatically deploys the app when new changes are pushed to the GitHub repository.
+It's also running the Prisma migrations and running tests to ensure that the existing functionality is not broken.
 
-To learn more about Next.js, take a look at the following resources:
+It all happens within a build command:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`npm run test & prisma generate && prisma migrate deploy && next build`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Testing
 
-## Deploy on Vercel
+There are two types of tests in the app:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Jest tests for the api routes in *./app/api/\_\_tests\_\_* directory
+- UI tests with Jest and React Testing Library in *./app/components/\_\_tests\_\_* directory
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+It's not covering the whole app because of the time and effort it requires, but it does test the crucial parts of
+the application.
+
+### Additional libraries
+
+There are few libraries imported to the project to help with UI or business logic.
+
+- **daisyui** - provides additional Tailwind classes to easily create specific components (like buttons)  
+- **react-infinite-scroll-component** - handles infinite scroll when loading the list of transactions  
+- **ibankit** - provides utilities to create and validate IBANs
+
+### Potential Improvements
+- **Better API fetching in the UI**: Axios was used to handle API calls but it could be optimized in terms of caching, performance, and code quality. Using a tool like React Query could have a positive impact. However, at this stage of development and because of the time constraints, it was an overkill.
+- **Higher test coverage**: Only the crucial parts of the app were tested. To ensure robustness, achieving higher test coverage would be necessary.
+- **User authentication**: Although it was not a requirement, adding authentication would make the app resemble a real-world application more closely.
