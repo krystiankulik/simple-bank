@@ -41,3 +41,4 @@ There are few libraries imported to the project to help with UI or business logi
 - **Better API fetching in the UI**: Axios was used to handle API calls but it could be optimized in terms of caching, performance, and code quality. Using a tool like React Query could have a positive impact. However, at this stage of development and because of the time constraints, it was an overkill.
 - **Higher test coverage**: Only the crucial parts of the app were tested. To ensure robustness, achieving higher test coverage would be necessary.
 - **User authentication**: Although it was not a requirement, adding authentication would make the app resemble a real-world application more closely.
+- **Proper design with mockups**: In a real world scenario I would firstly develop UI mockups with Figma to firstly validate all the assumptions about the app functionality.
