@@ -44,7 +44,7 @@ export const useTransfer = () => {
       setAmount("");
       setRecipientIBAN("");
     } catch (error) {
-      toast.error("Transfer failed");
+      console.log("Transfer failed");
     } finally {
       setIsLoading(false);
     }

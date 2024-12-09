@@ -1,8 +1,7 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Simple Bank
 
-## Getting Started
+Demo: https://simple-bank-xi.vercel.app/
 
-First, run the development server:
 
 ```bash
 npm run dev

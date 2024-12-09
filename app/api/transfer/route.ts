@@ -27,12 +27,11 @@ export async function POST(req: Request) {
       { status: 200 },
     );
   } catch (error: unknown) {
-    if (error instanceof Error && error.message === "Sender account not found") {
+    if (error instanceof Error) {
+      if (error.message === "Sender account not found") {
+        return NextResponse.json({ message: error.message }, { status: 404 });
+      }
       return NextResponse.json({ message: error.message }, { status: 404 });
-    }
-
-    if (error instanceof Error && error.message === "Insufficient funds") {
-      return NextResponse.json({ message: error.message }, { status: 400 });
     }
 
     console.error("Internal Server Error:", error);

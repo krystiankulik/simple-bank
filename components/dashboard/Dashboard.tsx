@@ -8,8 +8,8 @@ import { UserInfo } from "@/components/dashboard/user-info/UserInfo";
 
 export const Dashboard = () => {
   const { balance, iban, accountId, username, loading } = useDashboard();
-
-  if (loading || !iban || !username) {
+  console.log("loading", loading);
+  if (loading) {
     return (
       <div className={"h-full bg-base-100"}>
         <LoadingDots />

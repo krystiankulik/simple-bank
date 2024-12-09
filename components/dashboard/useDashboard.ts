@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import axiosInstance from "@/utils/axiosInstance";
 import toast from "react-hot-toast";
 import { useUser } from "@/context/UserContext";
@@ -19,11 +18,9 @@ interface ApiResponse {
 export const useDashboard = () => {
   const { username, accountId, setAccountId } = useUser();
 
-  const router = useRouter();
-
   const [balance, setBalance] = useState<number | null>(null);
   const [iban, setIban] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (!username) {
@@ -51,7 +48,8 @@ export const useDashboard = () => {
     };
 
     void fetchUserData();
-  }, [username, accountId, router, setAccountId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [username]);
 
   return {
     balance,

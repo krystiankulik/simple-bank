@@ -17,6 +17,10 @@ export async function transferBetweenAccounts(fromAccountId: string, toIBAN: str
     throw new Error("Sender account not found");
   }
 
+  if (new IBAN(senderAccount.IBAN).toFormattedString() === new IBAN(parsedIBAN).toFormattedString()) {
+    throw new Error("You cannot transfer money to your own account");
+  }
+
   if (senderAccount.balance.lessThan(amount)) {
     throw new Error("Insufficient funds");
   }
