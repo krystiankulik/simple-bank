@@ -7,7 +7,7 @@
     "build": "npm run test & prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --config jest.node.config.ts && jest --config jest.dom.config.ts",
+    "test": "npm run test:node && npm run test:dom",
     "test:node": "jest --config jest.node.config.ts",
     "test:dom": "jest --config jest.dom.config.ts"
   },
